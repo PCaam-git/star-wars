@@ -1,30 +1,30 @@
 function getCharacters(url = "https://www.swapi.tech/api/people/") {
-  fetch("https://www.swapi.tech/api/people")
+  fetch(url)
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
+      renderCharacters(data.results);
       setupPaginacion(data);
     })
     .catch((err) => console.error(err));
 }
 
 function renderCharacters(characters) {
-    const listContainer = document.getElementById('Personajes');
-    listContainer.innerHTML = '';
+  const listContainer = document.getElementById("personajes");
+  listContainer.innerHTML = "";
 
-    characters.forEach(character => {
-        const divElement = document.createElement('div');
-        divElement.classList.add('info-personaje');
+  characters.forEach((character) => {
+    const divElement = document.createElement("div");
+    divElement.classList.add("info-personaje");
 
-        divEement.innerHTML = `
+    divElement.innerHTML = `
           <a href="detail.html?id=${character.uid}">
         <h2>${character.name}</h2>
       </a>
     `;
-    listContainer.appendChild(divElement);  
-    });
+    listContainer.appendChild(divElement);
+  });
 }
-
 
 function setupPaginacion(data) {
   const paginationContainer = document.getElementById("paginacion");
@@ -50,6 +50,6 @@ function setupPaginacion(data) {
   }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    getCharacters();
+window.addEventListener("DOMContentLoaded", () => {
+  getCharacters();
 });
