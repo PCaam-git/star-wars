@@ -14,15 +14,32 @@ function renderCharacters(characters) {
   listContainer.innerHTML = "";
 
   characters.forEach((character) => {
+    //así se crea el div base
     const divElement = document.createElement("div");
     divElement.classList.add("info-personaje");
 
-    divElement.innerHTML = `
+    //así se hace una llamada individual al personaje para obtener más datos
+    fetch(character.url)
+      .then((res) => res.json())
+      .then((detailData) => {
+        const properties = detailData.result.properties;
+        //se añaden las propiedades que se quieran mostrar
+
+        //así se genera el HTML con varias características
+        divElement.innerHTML = `
           <a href="detail.html?id=${character.uid}">
         <h2>${character.name}</h2>
       </a>
+      <p>Año de nacimiento: ${properties.birth_year}</p>
+      <p>Género: ${properties.gender}</p>
+      <p>Altura: ${properties.height} cm</p>
+      <p>Peso: ${properties.mass}</p>
+      <p>Color de ojos: ${properties.eye_color}</p>
     `;
-    listContainer.appendChild(divElement);
+        // así se añade el div al contenedor
+        listContainer.appendChild(divElement);
+      })
+      .catch((err) => console.error(err));
   });
 }
 
